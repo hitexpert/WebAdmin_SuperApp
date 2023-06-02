@@ -1,0 +1,73 @@
+﻿@model WebAdmin_SuperApp.Models.user
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout_Account.cshtml";
+}
+
+<style>
+    .input-group.new {
+        width: 40%;
+        margin-left: 80px;
+    }
+
+    .input-group.captcha {
+        margin-right: 60px;
+    }
+
+    .Login-container {
+        text-align: -webkit-center;
+        text-align: -moz-center;
+    }
+</style>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<div class="col-md-12 text-center Login-container">
+    <form method="post" asp-action="Login">
+        @Html.AntiForgeryToken()
+
+        <div class="card" style="max-width:400px">
+
+            <h2 style="padding-top:20px;color:#c793d4">Log In Admin</h2>
+            <hr />
+            @Html.Raw(ViewBag.Pesan)
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group text-center">
+                @*<input type="text" style="width:60%;display:inline" name="nik" class="form-control" placeholder="NIK" value=@Model.NIK>*@
+                @Html.TextBoxFor(m => m.NIK, new { @class = "form-control", Style = "width:60%;display:inline", placeholder = "NIK" })
+                @Html.ValidationMessageFor(m => m.NIK, "", new { @class = "text-danger", Style = "opacity:0.8;display:block" })
+            </div>
+            <div class="form-group text-center">
+                @*<input type="password" style="width:60%;display:inline" name="password" class="form-control" placeholder="Password">*@
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", Style = "width:60%;display:inline", placeholder = "Password", autocomplete = "off" })
+                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", Style = "opacity:0.8;display:block" })
+            </div>
+            <div class="form-group form-inline">
+
+                <div class="input-group new pull-left">
+                    <span class="input-group-addon">
+                        <i class="fa fa-key"></i>
+                    </span>
+                    @Html.TextBoxFor(model => model.SecurityCode, new { @class = "form-control input-sm bounceIn animation-delay4", @placeholder = "Enter the code", autocomplete = "off" })
+
+                </div>
+                <div class="input-group captcha">
+                    <img alt="" src="~/Account/captcha" />
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Login" class="btn btn-primary" />
+            </div>
+
+            <br />
+            <br />
+        </div>
+    </form>
+</div>
+
+@section Scripts{
+    <script src="/Scripts/jquery.validate.js"></script>
+    @*<script src="/Scripts/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>*@
+    @Scripts.Render("~/bundles/jqueryval")
+}
